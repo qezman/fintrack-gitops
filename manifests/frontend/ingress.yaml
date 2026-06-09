@@ -23,7 +23,7 @@ spec:
                 name: fintrack-backend
                 port:
                   number: 3001
--          - path: /()(.*)
+          - path: /()(.*)
             pathType: ImplementationSpecific
             backend:
               service:
