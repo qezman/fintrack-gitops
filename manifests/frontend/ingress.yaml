@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fintrack-ingress
+  namespace: fintrack
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  tls:
+    - hosts:
+        - qossim005.online
+      secretName: fintrack-tls
+  rules:
+    - host: qossim005.online
+      http:
+        paths:
+          - path: /api(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: fintrack-backend
+                port:
+                  number: 3001
+-          - path: /()(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: fintrack-frontend
+                port:
+                  number: 80

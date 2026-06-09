@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: fintrack-backend
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+
+  source:
+    # The gitops repo ArgoCD watches
+    repoURL: https://github.com/qezman/fintrack-gitops
+    targetRevision: HEAD
+    # Only watch the backend manifests path
+    path: manifests/backend
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: fintrack
+
+  syncPolicy:
+    automated:
+      # Automatically deploy when Git changes
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
