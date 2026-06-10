@@ -10,10 +10,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - qossim005.online
+        - fintrack.qossim005.online
       secretName: fintrack-tls
   rules:
-    - host: qossim005.online
+    - host: fintrack.qossim005.online
       http:
         paths:
           - path: /api(/|$)(.*)
