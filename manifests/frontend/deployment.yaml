@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: 203637463799.dkr.ecr.us-east-1.amazonaws.com/fintrack-frontend:31c91325c803f1f0101c3050242d6c35c8039ad3
+          image: 203637463799.dkr.ecr.us-east-1.amazonaws.com/fintrack-frontend:e77313b2e9bf83ee7d125d84258f1fe681144be7
           ports:
             - containerPort: 80
 
