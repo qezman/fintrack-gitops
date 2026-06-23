@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: prisma-migrate
+  namespace: fintrack
+spec:
+  ttlSecondsAfterFinished: 300
+  template:
+    spec:
+      restartPolicy: Never
+      serviceAccountName: fintrack-backend
+      containers:
+        - name: migrate
+          image: 203637463799.dkr.ecr.us-east-1.amazonaws.com/fintrack-backend:latest
+          command: ["npx", "prisma", "migrate", "deploy"]
+          envFrom:
+            - secretRef:
+                name: fintrack-backend-secrets
+      backoffLimit: 3
