@@ -1,0 +1,15 @@
+# Local files
+*.env
+.env*
+
+# Temporary files
+/tmp/
+*.tmp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Plaintext secret drafts
+*-secret-plain.yaml
+*-secret-raw.yaml
