@@ -4,14 +4,10 @@ metadata:
   name: fintrack-ingress
   namespace: fintrack
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   ingressClassName: nginx
-  tls:
-    - hosts:
-        - fintrack.qossim005.online
-      secretName: fintrack-tls
   rules:
     - host: fintrack.qossim005.online
       http:
