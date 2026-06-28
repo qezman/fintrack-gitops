@@ -1,0 +1,57 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: fintrack-alerts
+  namespace: fintrack
+  labels:
+    release: kube-prometheus-stack
+spec:
+  groups:
+    - name: fintrack.backend
+      rules:
+        - alert: FintrackBackendDown
+          expr: kube_deployment_status_replicas_available{deployment="fintrack-backend", namespace="fintrack"} == 0
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "FinTrack backend is completely down"
+            description: "No backend replicas are available. Users cannot access the application."
+        - alert: FintrackPodRestarting
+          expr: increase(kube_pod_container_status_restarts_total{namespace="fintrack"}[15m]) > 3
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "FinTrack pod is crash looping"
+            description: "A pod in the fintrack namespace has restarted more than 3 times in 15 minutes."
+        - alert: FintrackHighMemory
+          expr: |
+            container_memory_working_set_bytes{namespace="fintrack", container="backend"}
+            /
+            container_spec_memory_limit_bytes{namespace="fintrack", container="backend"} > 0.80
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "FinTrack backend memory above 80%"
+            description: "Backend container memory usage has exceeded 80% of its limit for 5 minutes."
+        - alert: FintrackHPAMaxReplicas
+          expr: |
+            kube_horizontalpodautoscaler_status_current_replicas{namespace="fintrack", horizontalpodautoscaler="fintrack-backend-hpa"}
+            ==
+            kube_horizontalpodautoscaler_spec_max_replicas{namespace="fintrack", horizontalpodautoscaler="fintrack-backend-hpa"}
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "FinTrack HPA at maximum replicas"
+            description: "The backend HPA has reached its maximum of 5 replicas and cannot scale further."
+        - alert: FintrackBackendUnavailable
+          expr: kube_deployment_status_replicas_unavailable{deployment="fintrack-backend", namespace="fintrack"} > 0
+          for: 2m
+          labels:
+            severity: warning
+          annotations:
+            summary: "FinTrack backend has unavailable replicas"
+            description: "One or more backend replicas are unavailable. Reduced capacity."

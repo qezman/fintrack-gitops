@@ -13,3 +13,5 @@ Thumbs.db
 # Plaintext secret drafts
 *-secret-plain.yaml
 *-secret-raw.yaml
+
+/manifests/backend/testalert.yaml
