@@ -24,7 +24,7 @@ spec:
 
       containers:
         - name: backend
-          image: 203637463799.dkr.ecr.us-east-1.amazonaws.com/fintrack-backend:39af8086456e302a7385342dae75363ac74e043f
+          image: 203637463799.dkr.ecr.us-east-1.amazonaws.com/fintrack-backend:7df4c1e6c01069e5b906bb28efb6f2b3c795f5af
           ports:
             - containerPort: 3001
 
