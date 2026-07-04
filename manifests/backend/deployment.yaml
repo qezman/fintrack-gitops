@@ -24,7 +24,7 @@ spec:
 
       containers:
         - name: backend
-          image: 203637463799.dkr.ecr.us-east-1.amazonaws.com/fintrack-backend:7df4c1e6c01069e5b906bb28efb6f2b3c795f5af
+          image: 560205084952.dkr.ecr.us-east-1.amazonaws.com/fintrack-backend:c5c0c2c9cfb5cf29f17cad6d24bfc4cee1c8bd34
           ports:
             - containerPort: 3001
 
@@ -34,7 +34,7 @@ spec:
             - name: AWS_REGION
               value: "us-east-1"
             - name: AWS_S3_BUCKET_NAME
-              value: "fintrack-dev-receipts-203637463799"
+              value: "fintrack-dev-receipts-560205084952"
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
