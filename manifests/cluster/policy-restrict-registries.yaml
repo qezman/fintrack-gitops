@@ -1,0 +1,29 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: restrict-image-registries
+  annotations:
+    policies.kyverno.io/title: Restrict Image Registries
+    policies.kyverno.io/category: Best Practices
+    policies.kyverno.io/severity: high
+    policies.kyverno.io/description: >-
+      Only allow container images from the FinTrack ECR registry.
+      Blocks images pulled from Docker Hub or any untrusted source.
+spec:
+  validationFailureAction: Audit
+  background: true
+  rules:
+    - name: only-ecr-images
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+              namespaces:
+                - fintrack
+      validate:
+        message: "Images must come from the FinTrack ECR registry only."
+        pattern:
+          spec:
+            containers:
+              - image: "560205084952.dkr.ecr.us-east-1.amazonaws.com/*"
